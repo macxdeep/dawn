@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PieceBody from '../../components/PieceBody.astro';
+
+const entries = (await getCollection('words')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const pieces = await Promise.all(
+  entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<BaseLayout title="dƎEP — words">
+  <main class="mx-auto mb-16 mt-11 max-w-[1180px] columns-1 gap-7 px-5 sm:columns-2 lg:columns-3">
+    {
+      pieces.map(({ entry, Content }) => (
+        <article class="mb-7 break-inside-avoid bg-card px-[30px] pb-8 pt-[34px] [animation:rise_0.5s_ease_both]">
+          <h2 class="mb-[22px] font-serif text-2xl font-bold leading-tight">
+            <a href={`/words/${entry.id}`}>{entry.data.title}</a>
+          </h2>
+          <PieceBody><Content /></PieceBody>
+        </article>
+      ))
+    }
+  </main>
+</BaseLayout>

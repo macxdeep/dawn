@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PieceBody from '../../components/PieceBody.astro';
+
+export const getStaticPaths = (async () => {
+  const words = await getCollection('words');
+  return words.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} — dƎEP`}>
+  <main class="mx-auto max-w-xl px-5 py-12">
+    <article class="bg-card px-[30px] pb-8 pt-[34px]">
+      <h1 class="mb-[22px] font-serif text-2xl font-bold leading-tight">{entry.data.title}</h1>
+      <PieceBody><Content /></PieceBody>
+    </article>
+  </main>
+</BaseLayout>

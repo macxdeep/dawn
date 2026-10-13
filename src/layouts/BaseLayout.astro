@@ -1,0 +1,34 @@
+---
+import { Font } from 'astro:assets';
+import SiteNav from '../components/SiteNav.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'dƎEP — words, images, sounds',
+  description = 'Poems, paragraphs and small dialogues.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="canonical" href={Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-lora" preload />
+  </head>
+  <body class="flex min-h-full flex-col">
+    <SiteNav />
+    <slot />
+  </body>
+</html>
