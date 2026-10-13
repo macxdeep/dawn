@@ -12,10 +12,13 @@ const pieces = await Promise.all(
 ---
 
 <BaseLayout title="dƎEP — words">
-  <main class="mx-auto mb-16 mt-11 max-w-[1180px] columns-1 gap-7 px-5 sm:columns-2 lg:columns-3">
+  <main
+    id="pieces"
+    class="mx-auto mb-16 mt-11 grid max-w-[1180px] grid-cols-1 items-start gap-7 px-5 sm:grid-cols-2 lg:grid-cols-3"
+  >
     {
       pieces.map(({ entry, Content }) => (
-        <article class="mb-7 break-inside-avoid bg-card px-[30px] pb-8 pt-[34px] [animation:rise_0.5s_ease_both]">
+        <article class="bg-card px-[30px] pb-8 pt-[34px] [animation:rise_0.5s_ease_both]">
           <h2 class="mb-[22px] font-serif text-2xl font-bold leading-tight">
             <a href={`/words/${entry.id}`}>{entry.data.title}</a>
           </h2>
@@ -24,4 +27,32 @@ const pieces = await Promise.all(
       ))
     }
   </main>
+  <script is:inline>
+    // masonry that reads left to right: deal cards round-robin into columns
+    (function () {
+      var main = document.getElementById('pieces');
+      var items = Array.prototype.slice.call(main.children);
+      var wide = matchMedia('(min-width: 1024px)');
+      var mid = matchMedia('(min-width: 640px)');
+      var count = 0;
+      function layout() {
+        var n = wide.matches ? 3 : mid.matches ? 2 : 1;
+        if (n === count) return;
+        count = n;
+        var cols = [];
+        for (var i = 0; i < n; i++) {
+          var col = document.createElement('div');
+          col.className = 'flex flex-col gap-7';
+          cols.push(col);
+        }
+        items.forEach(function (item, i) {
+          cols[i % n].appendChild(item);
+        });
+        main.replaceChildren.apply(main, cols);
+      }
+      layout();
+      wide.addEventListener('change', layout);
+      mid.addEventListener('change', layout);
+    })();
+  </script>
 </BaseLayout>

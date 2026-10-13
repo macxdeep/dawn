@@ -12,16 +12,4 @@ const words = defineCollection({
   }),
 });
 
-const images = defineCollection({
-  // one yaml per photo; photo files live in src/assets/images
-  loader: glob({ pattern: '**/*.yaml', base: './src/content/images' }),
-  schema: ({ image }) =>
-    z.object({
-      image: image(),
-      alt: z.string(),
-      // sort key only (newest first); never rendered
-      date: z.coerce.date(),
-    }),
-});
-
-export const collections = { words, images };
+export const collections = { words };
