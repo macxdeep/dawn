@@ -5,8 +5,8 @@ date: 2022-01-01T12:00:00
 
 hey i've got to tell something off my chest
 you don't have to listen to what they say
-can't preach things that i haven't learned
-yet but still i will be around the corner, just give me that gaze
+can't preach things that i haven't learned yet
+but still i will be around the corner, just give me that gaze
 
 time is a thing, it might scare you off
 live present before the bubble gets burst
